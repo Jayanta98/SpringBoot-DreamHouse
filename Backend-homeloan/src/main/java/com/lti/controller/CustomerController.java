@@ -1,5 +1,7 @@
 package com.lti.controller;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +47,14 @@ public class CustomerController {
 	@PostMapping("/application-submit")
 	public ApplicationSubmitStatus submitApplication(@RequestBody Application application) {
 		try {
+			
+			
+			
+			//Adding two attributes dateOfAppointment and ApplicationStatus
+			application.setDateOfAppointment(LocalDate.now().plusDays(7));
+			application.setApplicationStatus("Pending");
+			
+			
 			int appId = applicationService.registerApplication(application);
 			ApplicationSubmitStatus status = new ApplicationSubmitStatus();
 			status.setStatus(true);
