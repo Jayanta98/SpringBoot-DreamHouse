@@ -53,6 +53,7 @@ public class CustomerController {
 			application.setApplicationStatus("Pending");
 			
 			int appId = applicationService.registerApplication(application);
+			
 			ApplicationSubmitStatus status = new ApplicationSubmitStatus();
 			status.setStatus(true);
 			status.setStatusMessage("Application submitted successfully");
