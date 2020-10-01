@@ -43,6 +43,12 @@ public class ApplicationServiceImpl implements ApplicationService {
 		}
 	}
 	
+	//Find Application by appId
+	@Override
+	public Application findById(int id) {
+		return applicationRepository.findById(id);
+	}
+	
 	
 	//Checking whether reapplying for loan
 	@Override
@@ -82,8 +88,8 @@ public class ApplicationServiceImpl implements ApplicationService {
 	
 	//Update application
 	@Override
-	public void updateApplication(Application application) {
-		applicationRepository.updateApplication(application);
+	public Application updateApplication(Application application) {
+		return applicationRepository.updateApplication(application);
 	}
 	
 	

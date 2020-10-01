@@ -9,6 +9,9 @@ public interface ApplicationService {
 
 	//Application login
 	Application applicationLogin(String email, String password);
+	
+	//Find Application by appId
+	Application findById(int id);
 
 	//Checking whether reapplying for loan
 	boolean isEligibleToApply(String aadharNo);
@@ -17,7 +20,7 @@ public interface ApplicationService {
 	int registerApplication(Application application);
 
 	//Update application
-	void updateApplication(Application application);
+	Application updateApplication(Application application);
 
 	//Track application status
 	String trackApplicationStatus(int appId);

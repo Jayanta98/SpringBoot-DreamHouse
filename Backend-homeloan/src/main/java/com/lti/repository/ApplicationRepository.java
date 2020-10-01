@@ -26,7 +26,7 @@ public interface ApplicationRepository {
 	
 	List<Application> getApplicationListByAadhar(String aadharNo);
 	
-	void updateApplication(Application application);
+	Application updateApplication(Application application);
 	
 	int registerIncome(Income income);
 	

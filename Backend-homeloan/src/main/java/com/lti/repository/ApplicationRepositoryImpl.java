@@ -98,8 +98,9 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 	
 	
 	@Override
-	public void updateApplication(Application application) {
-		genericRepository.save(application);
+	public Application updateApplication(Application application) {
+		Application updatedObj = genericRepository.save(application);
+		return updatedObj;
 	}
 	
 	
