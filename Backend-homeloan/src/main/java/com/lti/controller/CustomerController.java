@@ -105,4 +105,7 @@ public class CustomerController {
 			return status;
 		}
 	}
+	
+//	@PostMapping("/loan-submit")
+//	public Status submitLoanDetails(@RequestBody)
 }
