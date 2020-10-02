@@ -59,6 +59,7 @@ public class CustomerController {
 			status.setStatusMessage("Application submitted successfully");
 			status.setApplicationId(appId);
 			status.setName(application.getFirstname());
+			status.setDateOfAppointment(application.getDateOfAppointment());
 			return status;
 		}
 		catch(ApplicationServiceException e) {
