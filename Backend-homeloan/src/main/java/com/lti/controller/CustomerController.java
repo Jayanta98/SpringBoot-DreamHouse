@@ -1,8 +1,11 @@
 package com.lti.controller;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lti.dto.ApplicationSubmitStatus;
+import com.lti.dto.DocumentUpload;
 import com.lti.dto.IncomeDetails;
 import com.lti.dto.PropertyDetails;
 import com.lti.dto.Status;
 import com.lti.entity.Application;
+import com.lti.entity.Document;
 import com.lti.entity.Income;
 import com.lti.entity.Property;
 import com.lti.exception.ApplicationServiceException;
@@ -113,6 +118,58 @@ public class CustomerController {
 			status.setStatusMessage("Error occurred while submitting property details" + " " + e.getMessage());
 			return status;
 		}
+	}
+	
+	@PostMapping("/documents-submit")
+	public Status documentSubmit(DocumentUpload documentUpload) {
+		String imageUploadLocation = "h:/docs/";
+		
+		String fileNamePan = documentUpload.getPanCard().getOriginalFilename();
+		String targetFilePan = imageUploadLocation + fileNamePan;
+		String fileNameVoter = documentUpload.getVoterIdCard().getOriginalFilename();
+		String targetFileVoter = imageUploadLocation + fileNameVoter;
+		String fileNameSalary = documentUpload.getSalarySlip().getOriginalFilename();
+		String targetFileSalary = imageUploadLocation + fileNameSalary;
+		String fileNameLoa = documentUpload.getLoa().getOriginalFilename();
+		String targetFileLoa = imageUploadLocation + fileNameLoa;
+		String fileNameNoc = documentUpload.getNocFromBuilder().getOriginalFilename();
+		String targetFileNoc = imageUploadLocation + fileNameNoc;
+		String fileNameSaleAgreement = documentUpload.getAgreementToSale().getOriginalFilename();
+		String targetFileSaleAgreement = imageUploadLocation + fileNameSaleAgreement;
+		
+		try {
+			FileCopyUtils.copy(documentUpload.getPanCard().getInputStream(), new FileOutputStream(targetFilePan));
+			FileCopyUtils.copy(documentUpload.getVoterIdCard().getInputStream(), new FileOutputStream(targetFileVoter));
+			FileCopyUtils.copy(documentUpload.getSalarySlip().getInputStream(), new FileOutputStream(targetFileSalary));
+			FileCopyUtils.copy(documentUpload.getLoa().getInputStream(), new FileOutputStream(targetFileLoa));
+			FileCopyUtils.copy(documentUpload.getNocFromBuilder().getInputStream(), new FileOutputStream(targetFileNoc));
+			FileCopyUtils.copy(documentUpload.getAgreementToSale().getInputStream(), new FileOutputStream(targetFileSaleAgreement));
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+			Status status = new Status();
+			status.setStatus(false);
+			status.setStatusMessage("Documents upload failed");
+			return status;
+		}
+		Application application = applicationService.findById(documentUpload.getApplicationId());
+		
+		Document document = new Document();
+		document.setPanCard(fileNamePan);
+		document.setVoterIdCard(fileNameVoter);
+		document.setSalarySlip(fileNameSalary);
+		document.setLoa(fileNameLoa);
+		document.setNocFromBuilder(fileNameNoc);
+		document.setAgreementToSale(fileNameSaleAgreement);
+		document.setApplication(application);
+		
+		application.setDocument(document);
+		application = applicationService.updateApplication(application);
+		
+		Status status = new Status();
+		status.setStatus(true);
+		status.setStatusMessage("Documents uploaded successfully");
+		return status;
 	}
 	
 }
