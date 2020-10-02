@@ -44,7 +44,33 @@ public class Loan {
 	@Column(name = "loan_status")
 	private String loanStatus;
 	
+	@Column(name="customer_monthly_income")
+	private double customerMonthlyIncome;
 	
+	@Column(name="elligibility_status")
+	private String eligibilityStatus;
+	
+	@OneToOne
+	@JoinColumn(name= "application_id")
+	private Application application;
+	
+	
+	public double getCustomerMonthlyIncome() {
+		return customerMonthlyIncome;
+	}
+
+	public void setCustomerMonthlyIncome(double customerMonthlyIncome) {
+		this.customerMonthlyIncome = customerMonthlyIncome;
+	}
+
+	public String getEligibilityStatus() {
+		return eligibilityStatus;
+	}
+
+	public void setEligibilityStatus(String eligibilityStatus) {
+		this.eligibilityStatus = eligibilityStatus;
+	}
+
 	public String getLoanStatus() {
 		return loanStatus;
 	}
@@ -53,9 +79,7 @@ public class Loan {
 		this.loanStatus = loanStatus;
 	}
 
-	@OneToOne
-	@JoinColumn(name= "application_id")
-	private Application application;
+	
 
 	public int getLoanId() {
 		return loanId;
