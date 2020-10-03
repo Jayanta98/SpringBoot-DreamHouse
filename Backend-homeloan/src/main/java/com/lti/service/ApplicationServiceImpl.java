@@ -125,6 +125,34 @@ public class ApplicationServiceImpl implements ApplicationService {
 	public int registerDocuments(Document document) {
 		return applicationRepository.registerDocuments(document);
 	}
+
+	
+	//ElligibilityStatus For Loan (Partial/Fully/Not)
+	@Override
+	public String elligibilityStatusForLoan(double customerMonthlyIncome, int tenure, double loanAmount) {
+		
+		double monthlySavings = customerMonthlyIncome*0.4;   //Assuming 40%  of savings
+		
+		double totalSavingsInTenure= monthlySavings*tenure;
+		String result = null;
+		
+		if(loanAmount>(totalSavingsInTenure+100000)) {
+			result= "NOT Elligible For Loan";
+		}
+		if(loanAmount<(totalSavingsInTenure+100000)) {
+			result= "partially Elligible For Loan";
+			
+		}
+		 if(loanAmount<totalSavingsInTenure){
+			result= "Fully Elligible For Loan";
+		}
+		return result;
+		
+		
+	}
+	
+	
+	//
 	
 	
 	

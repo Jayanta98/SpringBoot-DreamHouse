@@ -22,7 +22,7 @@ public class Loan {
 	@SequenceGenerator(name = "loanseq", sequenceName = "loan_seq", initialValue = 1000, allocationSize = 1)
 	private int loanId;
 	
-	@Column(name = "max_loan_amount")
+	@Column(name = "max_loan_amount")//This is filled By Admin how much homeLoan provided by bank
 	private double maxLoanAmount;
 	
 	@Column(name = "interest_rate")

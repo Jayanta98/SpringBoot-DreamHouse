@@ -33,5 +33,9 @@ public interface ApplicationService {
 
 	//Add document details
 	int registerDocuments(Document document);
+	
+	
+	//Determination of Elligibility_Status for loan  
+	String elligibilityStatusForLoan(double customerMonthlyIncome,int tenure,double loanAmount);
 
 }
