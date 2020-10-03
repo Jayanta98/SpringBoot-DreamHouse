@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lti.dto.ApplicationSubmitStatus;
 import com.lti.dto.DocumentUpload;
 import com.lti.dto.IncomeDetails;
+import com.lti.dto.LoanDetails;
 import com.lti.dto.PropertyDetails;
 import com.lti.dto.Status;
 import com.lti.entity.Application;
 import com.lti.entity.Document;
 import com.lti.entity.Income;
+import com.lti.entity.Loan;
 import com.lti.entity.Property;
 import com.lti.exception.ApplicationServiceException;
 import com.lti.service.ApplicationService;
@@ -120,6 +122,7 @@ public class CustomerController {
 		}
 	}
 	
+	@CrossOrigin
 	@PostMapping("/documents-submit")
 	public Status documentSubmit(DocumentUpload documentUpload) {
 		String imageUploadLocation = "h:/docs/";
@@ -149,7 +152,7 @@ public class CustomerController {
 			e.printStackTrace();
 			Status status = new Status();
 			status.setStatus(false);
-			status.setStatusMessage("Documents upload failed");
+			status.setStatusMessage("Documents upload failed.");
 			return status;
 		}
 		Application application = applicationService.findById(documentUpload.getApplicationId());
@@ -170,6 +173,33 @@ public class CustomerController {
 		status.setStatus(true);
 		status.setStatusMessage("Documents uploaded successfully");
 		return status;
+	}
+	
+	@PostMapping("/loan-submit")
+	public Status submitloanDetail(@RequestBody LoanDetails loanDetails) {
+		try {
+			int applicationId = loanDetails.getApplicationId();
+			Application application = applicationService.findById(applicationId);
+			
+			Loan loan = loanDetails.getLoan();
+			loan.setInterestRate(8.5);
+			loan.setEligibilityStatus(applicationService.elligibilityStatusForLoan(loan.getCustomerMonthlyIncome(), loan.getTenure(), loan.getLoanAmount()));
+			loan.setApplication(application);
+			
+			application.setLoan(loan);
+			application = applicationService.updateApplication(application);
+			
+			Status status = new Status();
+			status.setStatus(true);
+			status.setStatusMessage("Loan details submitted successfully");
+			return status;
+		}
+		catch(Exception e) {
+			Status status = new Status();
+			status.setStatus(false);
+			status.setStatusMessage("Error occurred while submitting loan details" + " " + e.getMessage());
+			return status;
+		}
 	}
 	
 }
