@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,8 +28,8 @@ import com.lti.entity.Property;
 import com.lti.exception.ApplicationServiceException;
 import com.lti.service.ApplicationService;
 
+@CrossOrigin(exposedHeaders="Access-Control-Allow-Origin")
 @RestController
-@CrossOrigin
 public class CustomerController {
 	
 	@Autowired
@@ -80,6 +81,8 @@ public class CustomerController {
 	@PostMapping("/income-submit")
 	public Status submitIncomeDetails(@RequestBody IncomeDetails incomeDetails) {
 		try {
+			System.out.println(incomeDetails.getApplicationId());
+			
 			int applicationId = incomeDetails.getApplicationId();
 			Income income = incomeDetails.getIncome();
 			Application application = applicationService.findById(applicationId);
@@ -122,10 +125,10 @@ public class CustomerController {
 		}
 	}
 	
-	@CrossOrigin
+	@CrossOrigin(exposedHeaders="Access-Control-Allow-Origin")
 	@PostMapping("/documents-submit")
-	public Status documentSubmit(DocumentUpload documentUpload) {
-		String imageUploadLocation = "h:/docs/";
+	public Status documentSubmit(@RequestBody DocumentUpload documentUpload) {
+		String imageUploadLocation = "F:/docs/";
 		
 		String fileNamePan = documentUpload.getPanCard().getOriginalFilename();
 		String targetFilePan = imageUploadLocation + fileNamePan;
@@ -141,6 +144,9 @@ public class CustomerController {
 		String targetFileSaleAgreement = imageUploadLocation + fileNameSaleAgreement;
 		
 		try {
+			
+			
+			
 			FileCopyUtils.copy(documentUpload.getPanCard().getInputStream(), new FileOutputStream(targetFilePan));
 			FileCopyUtils.copy(documentUpload.getVoterIdCard().getInputStream(), new FileOutputStream(targetFileVoter));
 			FileCopyUtils.copy(documentUpload.getSalarySlip().getInputStream(), new FileOutputStream(targetFileSalary));
