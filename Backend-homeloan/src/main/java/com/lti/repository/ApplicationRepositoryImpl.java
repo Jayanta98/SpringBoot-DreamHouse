@@ -45,7 +45,7 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 	@Override
 	public int getApplicationId(String email, String password) {
 		return (Integer) entityManager
-				.createQuery("select a.applicationId from Application a where a.email =:email and a.Password =:password")
+				.createQuery("select a.applicationId from Application a where a.email =:email and a.password =:password")
 				.setParameter("email", email)
 				.setParameter("password", password)
 				.getSingleResult();
