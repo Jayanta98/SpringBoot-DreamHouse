@@ -81,7 +81,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 			return id;
 		}
 		else {
-			throw new ApplicationServiceException("Already applied for loan");
+			throw new ApplicationServiceException("Already applied for a loan which is either Running or In-Process");
 		}
 	}
 	

@@ -192,6 +192,7 @@ public class CustomerController {
 			Loan loan = loanDetails.getLoan();
 			loan.setInterestRate(8.5);
 			loan.setEligibilityStatus(applicationService.elligibilityStatusForLoan(loan.getCustomerMonthlyIncome(), loan.getTenure(), loan.getLoanAmount()));
+			loan.setLoanStatus("Apply");//setting Loan Status (Apply/Rejected/Completed/Running)
 			loan.setApplication(application);
 			
 			application.setLoan(loan);
