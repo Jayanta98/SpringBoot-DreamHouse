@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lti.dto.AccountDetail;
 import com.lti.dto.ApplicationSubmitStatus;
 import com.lti.dto.DocumentUpload;
 import com.lti.dto.IncomeDetails;
 import com.lti.dto.PropertyDetails;
 import com.lti.dto.Status;
-import com.lti.entity.Account;
 import com.lti.entity.Application;
 import com.lti.entity.Document;
 import com.lti.entity.Income;
@@ -180,9 +180,9 @@ public class CustomerController {
 	}
 	
 	@GetMapping("/accountdetails")
-	public Account getAccountDetails(@RequestParam("applicationId") int appId) {
-		Account account = applicationService.findById(appId);
-		return account;
+	public AccountDetail getAccountDetails(@RequestParam("accountNo") int accno) {
+		AccountDetail accountdetail = applicationService.findAccountByAccountNo(accno);
+		return accountdetail;
 	}
 	
 	

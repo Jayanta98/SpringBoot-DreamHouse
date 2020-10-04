@@ -123,4 +123,11 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 		document = genericRepository.save(document);
 		return document.getDocumentId();
 	}
+	
+	@Override
+	public Account findAccountByAccountNo(int accno) {
+		Account account = genericRepository.fetchById(Account.class, accno);
+		return account;
+		
+	}
 }

@@ -1,5 +1,6 @@
 package com.lti.service;
 
+import com.lti.dto.AccountDetail;
 import com.lti.entity.Application;
 import com.lti.entity.Document;
 import com.lti.entity.Income;
@@ -36,5 +37,8 @@ public interface ApplicationService {
 	
 	//Determination of Elligibility_Status for loan  
 	String elligibilityStatusForLoan(double customerMonthlyIncome, int tenure, double loanAmount);
+	
+	//Returning Accountdetails fount using ApplicationId
+	public AccountDetail findAccountByAccountNo(int id);
 
 }

@@ -8,6 +8,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lti.dto.AccountDetail;
+import com.lti.entity.Account;
 import com.lti.entity.Application;
 import com.lti.entity.Document;
 import com.lti.entity.Income;
@@ -47,6 +49,23 @@ public class ApplicationServiceImpl implements ApplicationService {
 	@Override
 	public Application findById(int id) {
 		return applicationRepository.findById(id);
+	}
+	
+	//Find Account by accontNo
+	@Override
+	public AccountDetail findAccountByAccountNo(int accno) {
+		try {
+			Account account= applicationRepository.findAccountByAccountNo(accno);
+			AccountDetail acdetail = new AccountDetail();
+			acdetail.setAccount(account);
+			acdetail.setAccountStatus(true);
+			return acdetail;
+			}catch(EmptyResultDataAccessException e) {
+			AccountDetail acdetail = new AccountDetail();
+			acdetail.setAccount(null);
+			acdetail.setAccountStatus(false);
+			return acdetail;
+			}
 	}
 	
 	

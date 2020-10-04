@@ -33,5 +33,7 @@ public interface ApplicationRepository {
 	int registerProperty(Property property);
 	
 	int registerDocuments(Document document);
+	
+	Account findAccountByAccountNo(int accno);
 
 }
