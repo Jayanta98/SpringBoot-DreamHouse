@@ -10,28 +10,23 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lti.dto.ApplicationSubmitStatus;
 import com.lti.dto.DocumentUpload;
 import com.lti.dto.IncomeDetails;
-import com.lti.dto.LoanDetails;
 import com.lti.dto.PropertyDetails;
 import com.lti.dto.Status;
-import com.lti.dto.UserLogin;
-import com.lti.dto.UserLoginStatus;
 import com.lti.entity.Application;
 import com.lti.entity.Document;
 import com.lti.entity.Income;
-import com.lti.entity.Loan;
 import com.lti.entity.Property;
 import com.lti.exception.ApplicationServiceException;
 import com.lti.service.ApplicationService;
 
-@CrossOrigin(exposedHeaders="Access-Control-Allow-Origin")
 @RestController
+@CrossOrigin
 public class CustomerController {
 	
 	@Autowired
@@ -83,8 +78,6 @@ public class CustomerController {
 	@PostMapping("/income-submit")
 	public Status submitIncomeDetails(@RequestBody IncomeDetails incomeDetails) {
 		try {
-			System.out.println(incomeDetails.getApplicationId());
-			
 			int applicationId = incomeDetails.getApplicationId();
 			Income income = incomeDetails.getIncome();
 			Application application = applicationService.findById(applicationId);
@@ -127,10 +120,9 @@ public class CustomerController {
 		}
 	}
 	
-	@CrossOrigin(exposedHeaders="Access-Control-Allow-Origin")
 	@PostMapping("/documents-submit")
-	public Status documentSubmit(@RequestBody DocumentUpload documentUpload) {
-		String imageUploadLocation = "F:/docs/";
+	public Status documentSubmit(DocumentUpload documentUpload) {
+		String imageUploadLocation = "h:/docs/";
 		
 		String fileNamePan = documentUpload.getPanCard().getOriginalFilename();
 		String targetFilePan = imageUploadLocation + fileNamePan;
@@ -146,9 +138,6 @@ public class CustomerController {
 		String targetFileSaleAgreement = imageUploadLocation + fileNameSaleAgreement;
 		
 		try {
-			
-			
-			
 			FileCopyUtils.copy(documentUpload.getPanCard().getInputStream(), new FileOutputStream(targetFilePan));
 			FileCopyUtils.copy(documentUpload.getVoterIdCard().getInputStream(), new FileOutputStream(targetFileVoter));
 			FileCopyUtils.copy(documentUpload.getSalarySlip().getInputStream(), new FileOutputStream(targetFileSalary));
@@ -160,7 +149,7 @@ public class CustomerController {
 			e.printStackTrace();
 			Status status = new Status();
 			status.setStatus(false);
-			status.setStatusMessage("Documents upload failed.");
+			status.setStatusMessage("Documents upload failed");
 			return status;
 		}
 		Application application = applicationService.findById(documentUpload.getApplicationId());
@@ -183,52 +172,18 @@ public class CustomerController {
 		return status;
 	}
 	
-	@PostMapping("/loan-submit")
-	public Status submitloanDetail(@RequestBody LoanDetails loanDetails) {
-		try {
-			int applicationId = loanDetails.getApplicationId();
-			Application application = applicationService.findById(applicationId);
-			
-			Loan loan = loanDetails.getLoan();
-			loan.setInterestRate(8.5);
-			loan.setEligibilityStatus(applicationService.elligibilityStatusForLoan(loan.getCustomerMonthlyIncome(), loan.getTenure(), loan.getLoanAmount()));
-			loan.setLoanStatus("Apply");//setting Loan Status (Apply/Rejected/Completed/Running)
-			loan.setApplication(application);
-			
-			application.setLoan(loan);
-			application = applicationService.updateApplication(application);
-			
-			Status status = new Status();
-			status.setStatus(true);
-			status.setStatusMessage("Loan details submitted successfully");
-			return status;
-		}
-		catch(Exception e) {
-			Status status = new Status();
-			status.setStatus(false);
-			status.setStatusMessage("Error occurred while submitting loan details" + " " + e.getMessage());
-			return status;
-		}
+	@GetMapping("/applicationdetails")
+	public Application getApplicationDetails(@RequestParam("applicationId") int appId) {
+		Application application = applicationService.findById(appId);
+		return application;
 	}
 	
-	@PostMapping("/user-login")
-	public UserLoginStatus userLogin(@RequestBody UserLogin userLogin) {
-		try {
-			Application application = applicationService.applicationLogin(userLogin.getEmail(), userLogin.getPassword());
-			UserLoginStatus userLoginStatus = new UserLoginStatus();
-			userLoginStatus.setStatus(true);
-			userLoginStatus.setApplicationId(application.getApplicationId());
-			userLoginStatus.setName(application.getFirstname() + " " + application.getLastname());
-			userLoginStatus.setStatusMessage("User Login successfull");
-			userLoginStatus.setApplicationStatus(application.getApplicationStatus());
-			return userLoginStatus;
-		}
-		catch(ApplicationServiceException e) {
-			UserLoginStatus userLoginStatus = new UserLoginStatus();
-			userLoginStatus.setStatus(false);
-			userLoginStatus.setStatusMessage(e.getMessage());
-			return userLoginStatus;
-		}
+	@GetMapping("/accountdetails")
+	public Application getAccountDetails(@RequestParam("applicationId") int appId) {
+		Application application = applicationService.findById(appId);
+		return application;
 	}
+	
+	
 	
 }
