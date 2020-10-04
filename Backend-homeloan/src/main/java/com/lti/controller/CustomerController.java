@@ -175,7 +175,7 @@ public class CustomerController {
 		return status;
 	}
 	
-	
+
 	@PostMapping("/user-login")
 	public UserLoginStatus userLogin(@RequestBody UserLogin userLogin) {
 		try {
@@ -196,7 +196,8 @@ public class CustomerController {
 		}
 	}
 	
-	@GetMapping("/applicationdetails")//not working
+
+	@GetMapping("/applicationdetails")// not working
 	public Application getApplicationDetails(@RequestParam("applicationId") int appId) {
 		Application application = applicationService.findById(appId);
 		return application;
