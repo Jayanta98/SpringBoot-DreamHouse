@@ -19,6 +19,8 @@ import com.lti.dto.DocumentUpload;
 import com.lti.dto.IncomeDetails;
 import com.lti.dto.PropertyDetails;
 import com.lti.dto.Status;
+import com.lti.dto.UserLogin;
+import com.lti.dto.UserLoginStatus;
 import com.lti.entity.Application;
 import com.lti.entity.Document;
 import com.lti.entity.Income;
@@ -173,13 +175,34 @@ public class CustomerController {
 		return status;
 	}
 	
-	@GetMapping("/applicationdetails")
+	
+	@PostMapping("/user-login")
+	public UserLoginStatus userLogin(@RequestBody UserLogin userLogin) {
+		try {
+			Application application = applicationService.applicationLogin(userLogin.getEmail(), userLogin.getPassword());
+			UserLoginStatus userLoginStatus = new UserLoginStatus();
+			userLoginStatus.setStatus(true);
+			userLoginStatus.setApplicationId(application.getApplicationId());
+			userLoginStatus.setName(application.getFirstname() + " " + application.getLastname());
+			userLoginStatus.setStatusMessage("User Login successfull");
+			userLoginStatus.setApplicationStatus(application.getApplicationStatus());
+			return userLoginStatus;
+		}
+		catch(ApplicationServiceException e) {
+			UserLoginStatus userLoginStatus = new UserLoginStatus();
+			userLoginStatus.setStatus(false);
+			userLoginStatus.setStatusMessage(e.getMessage());
+			return userLoginStatus;
+		}
+	}
+	
+	@GetMapping("/applicationdetails")//not working
 	public Application getApplicationDetails(@RequestParam("applicationId") int appId) {
 		Application application = applicationService.findById(appId);
 		return application;
 	}
 	
-	@GetMapping("/accountdetails")
+	@GetMapping("/accountdetails")//not working
 	public AccountDetail getAccountDetails(@RequestParam("accountNo") int accno) {
 		AccountDetail accountdetail = applicationService.findAccountByAccountNo(accno);
 		return accountdetail;
