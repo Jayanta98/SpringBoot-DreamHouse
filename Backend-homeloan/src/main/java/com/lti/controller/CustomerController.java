@@ -18,6 +18,7 @@ import com.lti.dto.DocumentUpload;
 import com.lti.dto.IncomeDetails;
 import com.lti.dto.PropertyDetails;
 import com.lti.dto.Status;
+import com.lti.entity.Account;
 import com.lti.entity.Application;
 import com.lti.entity.Document;
 import com.lti.entity.Income;
@@ -179,9 +180,9 @@ public class CustomerController {
 	}
 	
 	@GetMapping("/accountdetails")
-	public Application getAccountDetails(@RequestParam("applicationId") int appId) {
-		Application application = applicationService.findById(appId);
-		return application;
+	public Account getAccountDetails(@RequestParam("applicationId") int appId) {
+		Account account = applicationService.findById(appId);
+		return account;
 	}
 	
 	
