@@ -156,4 +156,11 @@ public class AdminServiceImpl implements AdminService {
 	public void insertAccountDetailsByAdmin(Account account) {
 		adminActivityRepository.insertAccountDetailsByAdmin(account);
 	}
+	
+	//Update application
+	@Override
+	public Application updateApplicationByAdmin(Application application) {
+		Application updatedObj = adminActivityRepository.updateApplicationByAdmin(application);
+		return updatedObj;
+	}
 }

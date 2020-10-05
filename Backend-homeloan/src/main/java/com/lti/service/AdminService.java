@@ -64,4 +64,6 @@ public interface AdminService {
 	//Add account
 	void insertAccountDetailsByAdmin(Account account);
 
+	Application updateApplicationByAdmin(Application application);
+
 }

@@ -10,10 +10,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lti.dto.AccountDetail;
 import com.lti.dto.AdminLogin;
 import com.lti.dto.AdminLoginStatus;
+import com.lti.dto.CreateAccountDetailsByAdmin;
+import com.lti.dto.LoanDetails;
+import com.lti.dto.Status;
+import com.lti.entity.Account;
 import com.lti.entity.Admin;
 import com.lti.entity.Application;
+import com.lti.entity.Loan;
 import com.lti.exception.AdminServiceException;
 import com.lti.service.AdminService;
 
@@ -54,6 +60,32 @@ public class AdminController {
 		return adminService.findByApplicationId(appId);
 	}
 	
+	
+	//////Creating of Account by admin -----------CREATE SECTION   
+	
+	
+	@PostMapping("/account-submit-byadmin")
+	public Status submitloanDetail(@RequestBody CreateAccountDetailsByAdmin accountDetailsByAdmin) {
+		try {
+			int applicationId = accountDetailsByAdmin.getApplicationId();
+			Application application = adminService.findByApplicationId(applicationId);
+			Account account = accountDetailsByAdmin.getAccount();
+			application.setAccount(account);
+			
+			application = adminService.updateApplicationByAdmin(application);
+
+			Status status = new Status();
+			status.setStatus(true);
+			status.setStatusMessage("Account details submitted by Admin successfully");
+			return status;
+		}
+		catch(Exception e) {
+			Status status = new Status();
+			status.setStatus(false);
+			status.setStatusMessage("Error occurred while submitting Account details" + " " + e.getMessage());
+			return status;
+		}
+	}
 	
 	
 }

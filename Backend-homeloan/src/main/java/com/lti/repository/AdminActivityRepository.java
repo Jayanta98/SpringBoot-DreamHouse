@@ -60,4 +60,6 @@ public interface AdminActivityRepository {
 	//Fetch document detail by ApplicationId
 	Document documentDetailsByApplicationId(int appId);
 
+	Application updateApplicationByAdmin(Application application);
+
 }

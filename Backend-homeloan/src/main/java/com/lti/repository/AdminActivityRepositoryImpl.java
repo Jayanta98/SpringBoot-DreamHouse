@@ -194,4 +194,12 @@ public class AdminActivityRepositoryImpl implements AdminActivityRepository {
 				.getSingleResult();
 	}
 	
+	
+	//Update application
+	@Override
+	public Application updateApplicationByAdmin(Application application) {
+		Application updatedObj = genericRepository.save(application);
+		return updatedObj;
+	}
+	
 }
