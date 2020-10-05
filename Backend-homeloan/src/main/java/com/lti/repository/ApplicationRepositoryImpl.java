@@ -130,4 +130,11 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 		return account;
 		
 	}
+
+
+	@Override
+	public Application findApplicationById(int appid) {
+		Application application = genericRepository.fetchById(Application.class, appid);
+		return application;
+	}
 }

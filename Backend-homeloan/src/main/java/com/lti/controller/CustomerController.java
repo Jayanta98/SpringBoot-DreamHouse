@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lti.dto.AccountDetail;
+import com.lti.dto.ApplicationDetails;
 import com.lti.dto.ApplicationSubmitStatus;
 import com.lti.dto.DocumentUpload;
 import com.lti.dto.IncomeDetails;
@@ -226,9 +227,9 @@ public class CustomerController {
 	
 
 	@GetMapping("/applicationdetails")// not working
-	public Application getApplicationDetails(@RequestParam("applicationId") int appId) {
-		Application application = applicationService.findById(appId);
-		return application;
+	public ApplicationDetails getApplicationDetails(@RequestParam("applicationId") int appId) {
+		ApplicationDetails appdetail = applicationService.findApplicationById(appId);
+		return appdetail;
 	}
 	
 	@GetMapping("/accountdetails")//not working
