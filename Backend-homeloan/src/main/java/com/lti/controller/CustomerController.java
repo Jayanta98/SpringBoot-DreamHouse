@@ -175,6 +175,33 @@ public class CustomerController {
 		return status;
 	}
 	
+	@PostMapping("/loan-submit")
+	public Status submitloanDetail(@RequestBody LoanDetails loanDetails) {
+		try {
+			int applicationId = loanDetails.getApplicationId();
+			Application application = applicationService.findById(applicationId);
+
+			Loan loan = loanDetails.getLoan();
+			loan.setInterestRate(8.5);
+			loan.setEligibilityStatus(applicationService.elligibilityStatusForLoan(loan.getCustomerMonthlyIncome(), loan.getTenure(), loan.getLoanAmount()));
+			loan.setApplication(application);
+
+			application.setLoan(loan);
+			application = applicationService.updateApplication(application);
+
+			Status status = new Status();
+			status.setStatus(true);
+			status.setStatusMessage("Loan details submitted successfully");
+			return status;
+		}
+		catch(Exception e) {
+			Status status = new Status();
+			status.setStatus(false);
+			status.setStatusMessage("Error occurred while submitting loan details" + " " + e.getMessage());
+			return status;
+		}
+	}
+	
 	@PostMapping("/user-login")
 	public UserLoginStatus userLogin(@RequestBody UserLogin userLogin) {
 		try {
