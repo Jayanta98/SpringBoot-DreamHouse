@@ -127,7 +127,7 @@ public class CustomerController {
 	
 	@PostMapping("/documents-submit")
 	public Status documentSubmit(DocumentUpload documentUpload) {
-		String imageUploadLocation = "h:/docs/";
+		String imageUploadLocation = "F:/docs/";
 		
 		String fileNamePan = documentUpload.getPanCard().getOriginalFilename();
 		String targetFilePan = imageUploadLocation + fileNamePan;
@@ -187,7 +187,7 @@ public class CustomerController {
 			loan.setInterestRate(8.5);
 			loan.setEligibilityStatus(applicationService.elligibilityStatusForLoan(loan.getCustomerMonthlyIncome(), loan.getTenure(), loan.getLoanAmount()));
 			loan.setApplication(application);
-
+			loan.setLoanStatus("Apply");//added status
 			application.setLoan(loan);
 			application = applicationService.updateApplication(application);
 
