@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lti.dto.AccountDetail;
+import com.lti.dto.ApplicationDetails;
 import com.lti.entity.Account;
 import com.lti.entity.Application;
 import com.lti.entity.Document;
@@ -60,7 +61,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 			acdetail.setAccount(account);
 			acdetail.setAccountStatus(true);
 			return acdetail;
-			}catch(EmptyResultDataAccessException e) {
+		}catch(EmptyResultDataAccessException e) {
 			AccountDetail acdetail = new AccountDetail();
 			acdetail.setAccount(null);
 			acdetail.setAccountStatus(false);
@@ -68,6 +69,21 @@ public class ApplicationServiceImpl implements ApplicationService {
 			}
 	}
 	
+	@Override
+	public ApplicationDetails findApplicationById(int appid) {
+		try {
+			Application application= applicationRepository.findApplicationById(appid);
+			ApplicationDetails appdetail = new ApplicationDetails();
+			appdetail.setApplication(application);
+			appdetail.setApplicationStatus(true);
+			return appdetail;
+		}catch(EmptyResultDataAccessException e) {
+			ApplicationDetails appdetail = new ApplicationDetails();
+			appdetail.setApplication(null);
+			appdetail.setApplicationStatus(false);
+			return appdetail;
+		}
+	}
 	
 	//Checking whether reapplying for loan
 	@Override

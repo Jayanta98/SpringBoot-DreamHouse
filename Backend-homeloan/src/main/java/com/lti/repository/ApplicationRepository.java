@@ -35,5 +35,7 @@ public interface ApplicationRepository {
 	int registerDocuments(Document document);
 	
 	Account findAccountByAccountNo(int accno);
+	
+	Application findApplicationById(int appid);
 
 }
