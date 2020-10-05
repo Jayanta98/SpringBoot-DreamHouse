@@ -23,6 +23,7 @@ import com.lti.dto.PropertyDetails;
 import com.lti.dto.Status;
 import com.lti.dto.UserLogin;
 import com.lti.dto.UserLoginStatus;
+import com.lti.entity.Account;
 import com.lti.entity.Application;
 import com.lti.entity.Document;
 import com.lti.entity.Income;
@@ -226,16 +227,53 @@ public class CustomerController {
 	}
 	
 
-	@GetMapping("/applicationdetails")// not working
+	@GetMapping("/applicationdetails")
 	public ApplicationDetails getApplicationDetails(@RequestParam("applicationId") int appId) {
-		ApplicationDetails appdetail = applicationService.findApplicationById(appId);
-		return appdetail;
+		try {
+			Application application = applicationService.findById(appId);
+			ApplicationDetails appDetails = new ApplicationDetails();
+			appDetails.setFirstname(application.getFirstname());
+			appDetails.setLastname(application.getLastname());
+			appDetails.setPhoneNo(application.getPhoneNo());
+			appDetails.setDateOfBirth(application.getDateOfBirth());
+			appDetails.setDateOfAppointment(application.getDateOfAppointment());
+			appDetails.setAadharNo(application.getAadharNo());
+			appDetails.setPanNo(application.getPanNo());
+			appDetails.setApplicationStatusMessage(application.getApplicationStatus());
+			appDetails.setEmail(application.getEmail());
+			appDetails.setNationality(application.getNationality());
+			appDetails.setStatus(true);
+			return appDetails;
+		}
+		catch(Exception e) {
+			ApplicationDetails appDetails = new ApplicationDetails();
+			appDetails.setStatus(false);
+			appDetails.setApplicationStatusMessage("Invalid application-Id");
+			return appDetails;
+		}
 	}
 	
 	@GetMapping("/accountdetails")//not working
 	public AccountDetail getAccountDetails(@RequestParam("accountNo") int accno) {
-		AccountDetail accountdetail = applicationService.findAccountByAccountNo(accno);
-		return accountdetail;
+		try {
+			Account account = applicationService.findAccountByAccountNo(accno);
+			AccountDetail accountdetail = new AccountDetail();
+			accountdetail.setFirstName(account.getFirstName());
+			accountdetail.setLastName(account.getLastName());
+			accountdetail.setAccountType(account.getAccountType());
+			accountdetail.setBranchCode(account.getBranchCode());
+			accountdetail.setBranchName(account.getBranchName());
+			accountdetail.setAccountStatus(true);
+			accountdetail.setIfscCode(account.getIfscCode());
+			accountdetail.setStatusMessage("Account details fetched");
+			return accountdetail;
+		}
+		catch(ApplicationServiceException e) {
+			AccountDetail accountdetail = new AccountDetail();
+			accountdetail.setAccountStatus(false);
+			accountdetail.setStatusMessage(e.getMessage());
+			return accountdetail;
+		}
 	}
 	
 	

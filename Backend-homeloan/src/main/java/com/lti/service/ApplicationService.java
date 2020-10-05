@@ -2,6 +2,7 @@ package com.lti.service;
 
 import com.lti.dto.AccountDetail;
 import com.lti.dto.ApplicationDetails;
+import com.lti.entity.Account;
 import com.lti.entity.Application;
 import com.lti.entity.Document;
 import com.lti.entity.Income;
@@ -40,9 +41,7 @@ public interface ApplicationService {
 	String elligibilityStatusForLoan(double customerMonthlyIncome, int tenure, double loanAmount);
 	
 	//Returning Accountdetails found using AccountNo
-	public AccountDetail findAccountByAccountNo(int id);
+	Account findAccountByAccountNo(int id);
 	
-	//returning Application Detail found using Application Id
-	public ApplicationDetails findApplicationById(int appid);
 
 }
