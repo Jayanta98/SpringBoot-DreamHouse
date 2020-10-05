@@ -232,6 +232,10 @@ public class CustomerController {
 		try {
 			Application application = applicationService.findById(appId);
 			ApplicationDetails appDetails = new ApplicationDetails();
+			if(applicationService.isAccountPresent(appId)) {
+				Account account = applicationService.fetchAccountByAppId(appId);
+				appDetails.setAccountNo(account.getAccountNo());
+			}
 			appDetails.setFirstname(application.getFirstname());
 			appDetails.setLastname(application.getLastname());
 			appDetails.setPhoneNo(application.getPhoneNo());

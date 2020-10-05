@@ -37,5 +37,9 @@ public interface ApplicationRepository {
 	Account findAccountByAccountNo(int accno);
 	
 	Application findApplicationById(int appid);
+	
+	Account findAccountByAppId(int appId);
+	
+	boolean isAccountPresent(int appId);
 
 }

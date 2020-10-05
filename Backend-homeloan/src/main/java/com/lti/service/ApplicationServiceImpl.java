@@ -165,9 +165,16 @@ public class ApplicationServiceImpl implements ApplicationService {
 		
 	}
 	
+	//checking whether account is created
+	@Override
+	public boolean isAccountPresent(int appId) {
+		return applicationRepository.isAccountPresent(appId);
+	}
 	
-	//
-	
-	
+	//fetch account by appId
+	@Override
+	public Account fetchAccountByAppId(int appId) {
+		return applicationRepository.findAccountByAppId(appId);
+	}
 	
 }

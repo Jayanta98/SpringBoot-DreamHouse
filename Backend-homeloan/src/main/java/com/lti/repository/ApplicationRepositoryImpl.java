@@ -137,4 +137,22 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 		Application application = genericRepository.fetchById(Application.class, appid);
 		return application;
 	}
+	
+	
+	@Override
+	public Account findAccountByAppId(int appId) {
+		return (Account) entityManager
+				.createQuery("select a from Account a where a.application.applicationId = :appId")
+				.setParameter("appId", appId)
+				.getSingleResult();
+	}
+	
+	
+	@Override
+	public boolean isAccountPresent(int appId) {
+		return (Long) entityManager
+				.createQuery("select count(a.accountNo) from Account a where a.application.applicationId = :appId")
+				.setParameter("appId", appId)
+				.getSingleResult() < 1 ? false : true;
+	}
 }
