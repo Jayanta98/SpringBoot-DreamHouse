@@ -15,8 +15,17 @@ public class ApplicationDetails {
 	private String panNo;
 	private LocalDate dateOfAppointment;
 	private String applicationStatusMessage;
+	private int accountNo;
 	private boolean status;
 	
+	public int getAccountNo() {
+		return accountNo;
+	}
+
+	public void setAccountNo(int accountNo) {
+		this.accountNo = accountNo;
+	}
+
 	public String getFirstname() {
 		return firstname;
 	}

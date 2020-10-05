@@ -43,5 +43,11 @@ public interface ApplicationService {
 	//Returning Accountdetails found using AccountNo
 	Account findAccountByAccountNo(int id);
 	
+	//checking whether account is created
+	boolean isAccountPresent(int appId);
+	
+	//fetch account by appId
+	Account fetchAccountByAppId(int appId);
+	
 
 }
