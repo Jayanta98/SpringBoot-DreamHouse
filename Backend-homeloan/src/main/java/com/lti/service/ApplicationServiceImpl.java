@@ -54,34 +54,13 @@ public class ApplicationServiceImpl implements ApplicationService {
 	
 	//Find Account by accontNo
 	@Override
-	public AccountDetail findAccountByAccountNo(int accno) {
+	public Account findAccountByAccountNo(int accno) {
 		try {
 			Account account= applicationRepository.findAccountByAccountNo(accno);
-			AccountDetail acdetail = new AccountDetail();
-			acdetail.setAccount(account);
-			acdetail.setAccountStatus(true);
-			return acdetail;
-		}catch(EmptyResultDataAccessException e) {
-			AccountDetail acdetail = new AccountDetail();
-			acdetail.setAccount(null);
-			acdetail.setAccountStatus(false);
-			return acdetail;
-			}
-	}
-	
-	@Override
-	public ApplicationDetails findApplicationById(int appid) {
-		try {
-			Application application= applicationRepository.findApplicationById(appid);
-			ApplicationDetails appdetail = new ApplicationDetails();
-			appdetail.setApplication(application);
-			appdetail.setApplicationStatus(true);
-			return appdetail;
-		}catch(EmptyResultDataAccessException e) {
-			ApplicationDetails appdetail = new ApplicationDetails();
-			appdetail.setApplication(null);
-			appdetail.setApplicationStatus(false);
-			return appdetail;
+			return account;
+		}
+		catch(EmptyResultDataAccessException e) {
+			throw new ApplicationServiceException("Invalid Account Number");
 		}
 	}
 	
