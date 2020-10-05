@@ -155,4 +155,40 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 				.setParameter("appId", appId)
 				.getSingleResult() < 1 ? false : true;
 	}
+	
+	
+	@Override
+	public boolean isIncomeFormFilled(int applicationId) {
+		return (Long) entityManager
+				.createQuery("select count(i.incomeId) from Income i where i.application.applicationId = :appId")
+				.setParameter("appId", applicationId)
+				.getSingleResult() < 1 ? false : true;
+	}
+	
+	
+	@Override
+	public boolean isPropertyFormFilled(int applicationId) {
+		return (Long) entityManager
+				.createQuery("select count(p.propertyId) from Property p where p.application.applicationId = :appId")
+				.setParameter("appId", applicationId)
+				.getSingleResult() < 1 ? false : true;
+	}
+	
+	
+	@Override
+	public boolean isLoanFormFilled(int applicationId) {
+		return (Long) entityManager
+				.createQuery("select count(l.loanId) from Loan l where l.application.applicationId = :appId")
+				.setParameter("appId", applicationId)
+				.getSingleResult() < 1 ? false : true;
+	}
+	
+	
+	@Override
+	public boolean isDocumentFormFilled(int applicationId) {
+		return (Long) entityManager
+				.createQuery("select count(d.documentId) from Document d where d.application.applicationId = :appId")
+				.setParameter("appId", applicationId)
+				.getSingleResult() < 1 ? false : true;
+	}
 }

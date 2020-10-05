@@ -1,7 +1,5 @@
 package com.lti.service;
 
-import com.lti.dto.AccountDetail;
-import com.lti.dto.ApplicationDetails;
 import com.lti.entity.Account;
 import com.lti.entity.Application;
 import com.lti.entity.Document;
@@ -49,5 +47,15 @@ public interface ApplicationService {
 	//fetch account by appId
 	Account fetchAccountByAppId(int appId);
 	
-
+	//checking if income form is filled
+	public boolean isIncomeFormFilled(int applicationId);
+	
+	//checking if property form is filled
+	public boolean isPropertyFormFilled(int applicationId);
+		
+	//checking if loan form is filled
+	public boolean isLoanFormFilled(int applicationId);
+	
+	//checking if document form is filled
+	public boolean isDocumentFormFilled(int applicationId);
 }

@@ -177,4 +177,32 @@ public class ApplicationServiceImpl implements ApplicationService {
 		return applicationRepository.findAccountByAppId(appId);
 	}
 	
+	
+	//checking if income form is filled
+	@Override
+	public boolean isIncomeFormFilled(int applicationId) {
+		return applicationRepository.isIncomeFormFilled(applicationId);
+	}
+	
+	
+	//checking if property form is filled
+	@Override
+	public boolean isPropertyFormFilled(int applicationId) {
+		return applicationRepository.isPropertyFormFilled(applicationId);
+	}
+	
+	
+	//checking if loan form is filled
+	@Override
+	public boolean isLoanFormFilled(int applicationId) {
+		return applicationRepository.isLoanFormFilled(applicationId);
+	}
+	
+	
+	//checking if document form is filled
+	@Override
+	public boolean isDocumentFormFilled(int applicationId) {
+		return applicationRepository.isDocumentFormFilled(applicationId);
+	}
+	
 }

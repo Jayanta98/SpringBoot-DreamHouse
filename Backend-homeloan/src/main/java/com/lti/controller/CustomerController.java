@@ -17,6 +17,7 @@ import com.lti.dto.AccountDetail;
 import com.lti.dto.ApplicationDetails;
 import com.lti.dto.ApplicationSubmitStatus;
 import com.lti.dto.DocumentUpload;
+import com.lti.dto.FormStatus;
 import com.lti.dto.IncomeDetails;
 import com.lti.dto.LoanDetails;
 import com.lti.dto.PropertyDetails;
@@ -281,5 +282,44 @@ public class CustomerController {
 	}
 	
 	
+	@GetMapping("/trackForm")
+	public FormStatus getNextFormToBeFilled(@RequestParam("applicationId") int applicationId) {
+		try {
+			String message = applicationService.trackApplicationStatus(applicationId);
+			FormStatus formStatus = new FormStatus();
+			if(!applicationService.isIncomeFormFilled(applicationId)) {
+				formStatus.setCurrentForm(1);
+				formStatus.setStatusMessage("On income form");
+			}
+			else if(!applicationService.isPropertyFormFilled(applicationId)) {
+				formStatus.setCurrentForm(2);
+				formStatus.setStatusMessage("On property form");
+			}
+			else if(!applicationService.isLoanFormFilled(applicationId)) {
+				formStatus.setCurrentForm(3);
+				formStatus.setStatusMessage("On loan form");
+			}
+			else if(!applicationService.isDocumentFormFilled(applicationId)) {
+				formStatus.setCurrentForm(4);
+				formStatus.setStatusMessage("On doc form");
+			}
+			else {
+				formStatus.setCurrentForm(0);
+				formStatus.setStatusMessage("All forms filled");
+			}
+			formStatus.setApplicationId(applicationId);
+			formStatus.setStatus(true);
+			return formStatus;
+		} 
+		catch (ApplicationServiceException e) {
+			FormStatus formStatus = new FormStatus();
+			formStatus.setApplicationId(applicationId);
+			formStatus.setStatus(false);
+			formStatus.setCurrentForm(-1);
+			formStatus.setStatusMessage(e.getMessage());
+			return formStatus;
+		}
+		
+	}
 	
 }

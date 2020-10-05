@@ -41,5 +41,13 @@ public interface ApplicationRepository {
 	Account findAccountByAppId(int appId);
 	
 	boolean isAccountPresent(int appId);
+	
+	boolean isIncomeFormFilled(int applicationId);
+	
+	boolean isPropertyFormFilled(int applicationId);
+	
+	boolean isLoanFormFilled(int applicationId);
+	
+	boolean isDocumentFormFilled(int applicationId);
 
 }
