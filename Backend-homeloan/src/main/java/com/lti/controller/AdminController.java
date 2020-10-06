@@ -170,12 +170,19 @@ public class AdminController {
 			int applicationId = accountDetailsByAdmin.getApplicationId();
 			Application application = adminService.findByApplicationId(applicationId);
 			Account account = accountDetailsByAdmin.getAccount();
-			//account.setApplication(application);
-			
-			
-			Account updatedAccount= adminService.updateAccountByAdmin(account);
-			//application.setAccount(updatedAccount);
-			//application = adminService.updateApplicationByAdmin(application);
+			account.setApplication(application);
+			if(applicationService.isAccountPresent(applicationId)) {
+				Account oldAccount = applicationService.fetchAccountByAppId(applicationId);
+				oldAccount.setAmount(account.getAmount());
+				oldAccount.setAccountType(account.getAccountType());
+				application.setAccount(oldAccount);
+				application = applicationService.updateApplication(application);
+			}
+			else {
+				account.setApplication(application);
+				application.setAccount(account);
+				application = applicationService.updateApplication(application);
+			}
 
 			Status status = new Status();
 			status.setStatus(true);
