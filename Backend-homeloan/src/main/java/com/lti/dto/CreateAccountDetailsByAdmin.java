@@ -6,6 +6,7 @@ public class CreateAccountDetailsByAdmin {
 
 	private int applicationId;
 	private Account account;
+	
 	public int getApplicationId() {
 		return applicationId;
 	}
