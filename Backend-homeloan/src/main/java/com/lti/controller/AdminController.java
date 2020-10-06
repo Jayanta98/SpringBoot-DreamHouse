@@ -63,13 +63,13 @@ public class AdminController {
 	
 	//////Creating of Account by admin -----------CREATE SECTION   
 	
-	
-	@PostMapping("/account-submit-byadmin")
+	@PostMapping("/account-create-byadmin")
 	public Status submitloanDetail(@RequestBody CreateAccountDetailsByAdmin accountDetailsByAdmin) {
 		try {
 			int applicationId = accountDetailsByAdmin.getApplicationId();
 			Application application = adminService.findByApplicationId(applicationId);
 			Account account = accountDetailsByAdmin.getAccount();
+			account.setApplication(application);
 			application.setAccount(account);
 			
 			application = adminService.updateApplicationByAdmin(application);
