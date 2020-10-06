@@ -242,6 +242,7 @@ public class CustomerController {
 			appDetails.setFirstname(application.getFirstname());
 			appDetails.setMiddlename(application.getMiddlename());
 			appDetails.setLastname(application.getLastname());
+			appDetails.setApplicationId(application.getApplicationId());
 			appDetails.setPhoneNo(application.getPhoneNo());
 			appDetails.setDateOfBirth(application.getDateOfBirth());
 			appDetails.setDateOfAppointment(application.getDateOfAppointment());

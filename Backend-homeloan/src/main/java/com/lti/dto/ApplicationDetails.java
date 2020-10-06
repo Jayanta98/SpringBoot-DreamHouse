@@ -8,6 +8,7 @@ public class ApplicationDetails {
 	private String firstname;
 	private String middlename;
 	private String lastname;
+	private int applicationId;
 	private String email;
 	private String phoneNo;
 	private LocalDate dateOfBirth;
@@ -22,6 +23,7 @@ public class ApplicationDetails {
 	
 	private boolean status;
 	
+<<<<<<< HEAD
 	
 	
 	public String getAccountType() {
@@ -46,6 +48,14 @@ public class ApplicationDetails {
 
 	public void setMiddlename(String middlename) {
 		this.middlename = middlename;
+=======
+	public int getApplicationId() {
+		return applicationId;
+	}
+
+	public void setApplicationId(int applicationId) {
+		this.applicationId = applicationId;
+>>>>>>> e0fa5f269fb427a5b9307746260acde05086f174
 	}
 
 	public int getAccountNo() {
