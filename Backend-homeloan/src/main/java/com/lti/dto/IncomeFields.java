@@ -1,6 +1,6 @@
 package com.lti.dto;
 
-public class IncomeFields {
+public class IncomeFields extends Status {
 
 	private int incomeId;
 	private String typeOfEmployement;

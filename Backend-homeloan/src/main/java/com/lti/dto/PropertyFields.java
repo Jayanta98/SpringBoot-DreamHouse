@@ -1,6 +1,6 @@
 package com.lti.dto;
 
-public class PropertyFields {
+public class PropertyFields extends Status {
 
 	private int propertyId;
 	private String propertyLocation;

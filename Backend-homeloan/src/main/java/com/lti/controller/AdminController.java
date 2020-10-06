@@ -106,6 +106,8 @@ public class AdminController {
 			field.setOrganizationType(income.getOrganizationType());
 			field.setTypeOfEmployement(income.getTypeOfEmployement());
 			field.setApplicationId(income.getApplication().getApplicationId());
+			field.setStatus(true);
+			field.setStatusMessage("Fetching successfull");
 			incomeList.add(field);
 		}
 		
@@ -124,6 +126,8 @@ public class AdminController {
 			field.setPropertyName(property.getPropertyName());
 			field.setEstimatedAmount(property.getEstimatedAmount());
 			field.setApplicationId(property.getApplication().getApplicationId());
+			field.setStatus(true);
+			field.setStatusMessage("Fetch successfull");
 			propertyList.add(field);
 		}
 		
@@ -150,6 +154,8 @@ public class AdminController {
 			field.setMaxLoanAmount(loan.getMaxLoanAmount());
 			field.setStartDate(loan.getStartDate());
 			field.setTenure(loan.getTenure());
+			field.setStatusMessage("Fetch successfull");
+			field.setStatus(true);
 			loanList.add(field);
 		}
 		
@@ -157,9 +163,111 @@ public class AdminController {
 	}
 	
 	
-	@GetMapping(path = "view-application")
-	public Application fetchByApplicationId(@RequestParam("applicationId") int appId) {
-		return adminService.findByApplicationId(appId);
+	@GetMapping("/view-application")
+	public ApplicationDetails fetchAppDetailByApplicationId(@RequestParam("applicationId") int appId) {
+		try {
+			Application application = adminService.findByApplicationId(appId);
+			ApplicationDetails appDetail = new ApplicationDetails();
+			appDetail.setAadharNo(application.getAadharNo());
+			appDetail.setApplicationId(application.getApplicationId());
+			appDetail.setApplicationStatusMessage(application.getApplicationStatus());
+			appDetail.setDateOfAppointment(application.getDateOfAppointment());
+			appDetail.setDateOfBirth(application.getDateOfBirth());
+			appDetail.setEmail(application.getEmail());
+			appDetail.setFirstname(application.getFirstname());
+			appDetail.setLastname(application.getMiddlename());
+			appDetail.setMiddlename(application.getMiddlename());
+			appDetail.setNationality(application.getNationality());
+			appDetail.setPanNo(application.getPanNo());
+			appDetail.setPhoneNo(application.getPhoneNo());
+			appDetail.setStatus(true);
+			if(applicationService.isAccountPresent(appId)) {
+				Account account = applicationService.fetchAccountByAppId(appId);
+				appDetail.setAccountNo(account.getAccountNo());
+				appDetail.setAmmount(account.getAmount());
+				appDetail.setAccountType(account.getAccountType());
+			}
+			return appDetail;
+		} 
+		catch (Exception e) {
+			ApplicationDetails appDetail = new ApplicationDetails();
+			appDetail.setStatus(false);
+			appDetail.setApplicationStatusMessage("Invalid application-Id");
+			return appDetail;
+		}
+	}
+	
+	@GetMapping("/view-income")
+	public IncomeFields fetchIncomeDetailByApplicationId(@RequestParam("applicationId") int appId) {
+		try {
+			Income income = adminService.incomeDetailsByApplicationId(appId);
+			IncomeFields field = new IncomeFields();
+			field.setIncomeId(income.getIncomeId());
+			field.setEmployerName(income.getEmployerName());
+			field.setOrganizationType(income.getOrganizationType());
+			field.setTypeOfEmployement(income.getTypeOfEmployement());
+			field.setApplicationId(income.getApplication().getApplicationId());
+			field.setStatus(true);
+			field.setStatusMessage("Fetching successfull");
+			return field;
+		}
+		catch(Exception e) {
+			IncomeFields field = new IncomeFields();
+			field.setStatus(false);
+			field.setStatusMessage("Invalid app Id");
+			return field;
+		}
+	}
+	
+	@GetMapping("/view-property")
+	public PropertyFields fetchPropertyDetailByApplicationId(@RequestParam("applicationId") int appId) {
+		try {
+			Property property = adminService.propertyDetailByApplicationId(appId);
+			PropertyFields field = new PropertyFields();
+			field.setPropertyId(property.getPropertyId());
+			field.setPropertyLocation(property.getPropertyLocation());
+			field.setPropertyName(property.getPropertyName());
+			field.setEstimatedAmount(property.getEstimatedAmount());
+			field.setApplicationId(property.getApplication().getApplicationId());
+			field.setStatus(true);
+			field.setStatusMessage("Fetch successfull");
+			return field;
+		}
+		catch(Exception e) {
+			PropertyFields field = new PropertyFields();
+			field.setStatus(false);
+			field.setStatusMessage("Invalid app Id");
+			return field;
+		}
+	}
+	
+	@GetMapping("/view-loan")
+	public LoanFields fetchLoanDetailByApplicationId(@RequestParam("applicationId") int appId) {
+		try {
+			Loan loan = adminService.loanDetailsByApplicationId(appId);
+			LoanFields field = new LoanFields();
+			field.setApplicationId(loan.getApplication().getApplicationId());
+			field.setCustomerMonthlyIncome(loan.getCustomerMonthlyIncome());
+			field.setEligibilityStatus(loan.getEligibilityStatus());
+			field.setEmi(loan.getEmi());
+			field.setEndDate(loan.getEndDate());
+			field.setInterestRate(loan.getInterestRate());
+			field.setLoanAmount(loan.getLoanAmount());
+			field.setLoanId(loan.getLoanId());
+			field.setLoanStatus(loan.getLoanStatus());
+			field.setMaxLoanAmount(loan.getMaxLoanAmount());
+			field.setStartDate(loan.getStartDate());
+			field.setTenure(loan.getTenure());
+			field.setStatusMessage("Fetch successfull");
+			field.setStatus(true);
+			return field;
+		}
+		catch(Exception e) {
+			LoanFields field = new LoanFields();
+			field.setStatus(false);
+			field.setStatusMessage("Invalid app Id");
+			return field;
+		}
 	}
 	
 	
