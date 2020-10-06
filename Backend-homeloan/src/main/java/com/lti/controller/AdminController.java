@@ -18,6 +18,7 @@ import com.lti.dto.ApplicationDetails;
 import com.lti.dto.CreateAccountDetailsByAdmin;
 import com.lti.dto.IncomeFields;
 import com.lti.dto.LoanDetails;
+import com.lti.dto.LoanDetailsForAdmin;
 import com.lti.dto.PropertyFields;
 import com.lti.dto.Status;
 import com.lti.dto.UpdateApplicationStatusDetail;
@@ -219,6 +220,83 @@ public class AdminController {
 			status.setStatusMessage("Error occurred while Updating Application Status" + " " + e.getMessage());
 			return status;
 		}
+		
+	}
+	
+	
+	
+	//Loading LoanTable Data by applicationId for admin
+	@GetMapping("/loanDetailsforAdmin")
+	public LoanDetailsForAdmin giveLoanDetails(@RequestParam("applicationId") int applicationId) {
+		try {
+		
+			Loan loan = adminService.loanDetailsByApplicationId(applicationId);
+			
+			LoanDetailsForAdmin loanDetailsforAdmin= new LoanDetailsForAdmin();
+			
+			loanDetailsforAdmin.setApplicationId(applicationId);
+			loanDetailsforAdmin.setInterestRate(loan.getInterestRate());
+			loanDetailsforAdmin.setLoanAmount(loan.getLoanAmount());
+			loanDetailsforAdmin.setMaxLoanAmount(loan.getMaxLoanAmount());
+			loanDetailsforAdmin.setTenure(loan.getTenure());
+			loanDetailsforAdmin.setEmi(loan.getEmi());
+			loanDetailsforAdmin.setCustomerMonthlyIncome(loan.getCustomerMonthlyIncome());
+			loanDetailsforAdmin.setEligibilityStatus(loan.getEligibilityStatus());
+			loanDetailsforAdmin.setStartDate(loan.getStartDate());
+			loanDetailsforAdmin.setEndDate(loan.getEndDate());
+			loanDetailsforAdmin.setLoanStatus(loan.getLoanStatus());
+			loanDetailsforAdmin.setMyStatus(true);
+			loanDetailsforAdmin.setMessage("Loan Details Fetched Successfully" );
+			
+			return loanDetailsforAdmin;
+		}
+		catch (Exception e) {
+			LoanDetailsForAdmin loanDetailsforAdmin= new LoanDetailsForAdmin();
+			loanDetailsforAdmin.setMyStatus(false);
+			loanDetailsforAdmin.setMessage("Error while fetching Loan Details "+ " " + e.getMessage());
+			return loanDetailsforAdmin;
+		}
+		
+	}
+	
+	
+	
+	@PostMapping("/update-loanByadmin")
+	public Status updateLoanTableByAdmin(@RequestBody LoanDetailsForAdmin loanDetails ) {
+		
+		try {
+				int appId= loanDetails.getApplicationId();
+				Application application = adminService.findByApplicationId(appId);
+				
+				Loan loan = adminService.loanDetailsByApplicationId(appId);
+				
+				loan.setInterestRate(loanDetails.getInterestRate());
+				loan.setLoanAmount(loanDetails.getLoanAmount());
+				loan.setMaxLoanAmount(loanDetails.getMaxLoanAmount());
+				loan.setTenure(loanDetails.getTenure());
+				loan.setEmi(loanDetails.getEmi());
+				loan.setCustomerMonthlyIncome(loanDetails.getCustomerMonthlyIncome());
+				loan.setEligibilityStatus(loanDetails.getEligibilityStatus());
+				loan.setStartDate(loanDetails.getStartDate());
+				loan.setEndDate(loanDetails.getEndDate());
+				loan.setLoanStatus(loanDetails.getLoanStatus());
+				
+				loan.setApplication(application);
+				application.setLoan(loan);
+				application = adminService.updateApplicationByAdmin(application);
+				
+				Status status = new Status();
+				status.setStatus(true);
+				status.setStatusMessage("Loan Table Updated by Admin successfully");
+				return status;
+				
+			}catch (Exception e) {
+			Status status = new Status();
+			status.setStatus(false);
+			status.setStatusMessage("Error occurred while Updating Loan Table" + " " + e.getMessage());
+			return status;
+		}
+			
 		
 	}
 	

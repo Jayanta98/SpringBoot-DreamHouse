@@ -262,7 +262,7 @@ public class CustomerController {
 		}
 	}
 	
-	@GetMapping("/accountdetails")//not working
+	@GetMapping("/accountdetails")
 	public AccountDetail getAccountDetails(@RequestParam("accountNo") int accno) {
 		try {
 			Account account = applicationService.findAccountByAccountNo(accno);
