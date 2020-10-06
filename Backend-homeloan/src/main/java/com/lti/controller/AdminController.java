@@ -1,5 +1,6 @@
 package com.lti.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lti.dto.AccountDetail;
 import com.lti.dto.AdminLogin;
 import com.lti.dto.AdminLoginStatus;
+import com.lti.dto.ApplicationDetails;
 import com.lti.dto.CreateAccountDetailsByAdmin;
 import com.lti.dto.LoanDetails;
 import com.lti.dto.Status;
@@ -22,6 +24,7 @@ import com.lti.entity.Application;
 import com.lti.entity.Loan;
 import com.lti.exception.AdminServiceException;
 import com.lti.service.AdminService;
+import com.lti.service.ApplicationService;
 
 @RestController
 @CrossOrigin
@@ -29,6 +32,9 @@ public class AdminController {
 
 	@Autowired
 	private AdminService adminService;
+	
+	@Autowired
+	private ApplicationService applicationService;
 	
 	@PostMapping(path = "/admin-login")
 	public AdminLoginStatus adminLogin(@RequestBody AdminLogin adminLogin) {
@@ -50,9 +56,33 @@ public class AdminController {
 	}
 	
 	@GetMapping(path = "/view-all-applications")
-	public List<Application> viewAllApplications() {
+	public List<ApplicationDetails> viewAllApplications() {
+		
+		List<ApplicationDetails> appList = new ArrayList<ApplicationDetails>();
 		List<Application> list = adminService.showAllApplications();
-		return list;
+		
+		for(Application application : list ) {
+			ApplicationDetails appDetails = new ApplicationDetails();
+			if(applicationService.isAccountPresent(application.getApplicationId())) {
+				Account account = applicationService.fetchAccountByAppId(application.getApplicationId());
+				appDetails.setAccountNo(account.getAccountNo());
+			}
+			appDetails.setFirstname(application.getFirstname());
+			appDetails.setLastname(application.getLastname());
+			appDetails.setPhoneNo(application.getPhoneNo());
+			appDetails.setDateOfBirth(application.getDateOfBirth());
+			appDetails.setDateOfAppointment(application.getDateOfAppointment());
+			appDetails.setAadharNo(application.getAadharNo());
+			appDetails.setPanNo(application.getPanNo());
+			appDetails.setApplicationStatusMessage(application.getApplicationStatus());
+			appDetails.setEmail(application.getEmail());
+			appDetails.setNationality(application.getNationality());
+			appDetails.setStatus(true);
+			appList.add(appDetails);
+		}
+		
+		return appList;
+
 	}
 	
 	@GetMapping(path = "view-application")
