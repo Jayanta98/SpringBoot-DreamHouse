@@ -20,6 +20,7 @@ import com.lti.dto.IncomeFields;
 import com.lti.dto.LoanDetails;
 import com.lti.dto.PropertyFields;
 import com.lti.dto.Status;
+import com.lti.dto.UpdateApplicationStatusDetail;
 import com.lti.entity.Account;
 import com.lti.entity.Admin;
 import com.lti.entity.Application;
@@ -190,6 +191,29 @@ public class AdminController {
 		}
 	}
 	
+	//Update Application Status BY admin (Apply/Approved/Rejected)
+	@PostMapping("/update-appStatus")
+	public Status updateApplicationStatusBYAdmin(@RequestBody UpdateApplicationStatusDetail updateDetails) {
+		try{
+			int applicationId=updateDetails.getApplicationId();
+			Application application = adminService.findByApplicationId(applicationId);
+			application.setApplicationStatus(updateDetails.getNewStatus());
+		
+			application = adminService.updateApplicationByAdmin(application);
+		
+			Status status = new Status();
+			status.setStatus(true);
+			status.setStatusMessage("Application Status Updated by Admin successfully");
+			return status;
+		}
+		catch(Exception e) {
+			Status status = new Status();
+			status.setStatus(false);
+			status.setStatusMessage("Error occurred while Updating Application Status" + " " + e.getMessage());
+			return status;
+		}
+		
+	}
 	
 	
 }
