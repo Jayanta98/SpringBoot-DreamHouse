@@ -7,6 +7,7 @@ public class ApplicationDetails {
 	
 	private String firstname;
 	private String lastname;
+	private int applicationId;
 	private String email;
 	private String phoneNo;
 	private LocalDate dateOfBirth;
@@ -18,6 +19,14 @@ public class ApplicationDetails {
 	private int accountNo;
 	private boolean status;
 	
+	public int getApplicationId() {
+		return applicationId;
+	}
+
+	public void setApplicationId(int applicationId) {
+		this.applicationId = applicationId;
+	}
+
 	public int getAccountNo() {
 		return accountNo;
 	}

@@ -16,15 +16,20 @@ import com.lti.dto.AdminLogin;
 import com.lti.dto.AdminLoginStatus;
 import com.lti.dto.ApplicationDetails;
 import com.lti.dto.CreateAccountDetailsByAdmin;
+import com.lti.dto.IncomeFields;
 import com.lti.dto.LoanDetails;
+import com.lti.dto.PropertyFields;
 import com.lti.dto.Status;
 import com.lti.entity.Account;
 import com.lti.entity.Admin;
 import com.lti.entity.Application;
+import com.lti.entity.Income;
 import com.lti.entity.Loan;
+import com.lti.entity.Property;
 import com.lti.exception.AdminServiceException;
 import com.lti.service.AdminService;
 import com.lti.service.ApplicationService;
+import com.lti.dto.LoanFields;
 
 @RestController
 @CrossOrigin
@@ -69,6 +74,7 @@ public class AdminController {
 			}
 			appDetails.setFirstname(application.getFirstname());
 			appDetails.setLastname(application.getLastname());
+			appDetails.setApplicationId(application.getApplicationId());
 			appDetails.setPhoneNo(application.getPhoneNo());
 			appDetails.setDateOfBirth(application.getDateOfBirth());
 			appDetails.setDateOfAppointment(application.getDateOfAppointment());
@@ -84,6 +90,71 @@ public class AdminController {
 		return appList;
 
 	}
+	
+	
+	@GetMapping("/view-all-income-details")
+	public List<IncomeFields> viewAllIncomeDetails() {
+		
+		List<IncomeFields> incomeList = new  ArrayList<IncomeFields>();
+		List<Income> list = adminService.getAllIncomeDetails();
+		
+		for(Income income : list) {
+			IncomeFields field = new IncomeFields();
+			field.setIncomeId(income.getIncomeId());
+			field.setEmployerName(income.getEmployerName());
+			field.setOrganizationType(income.getOrganizationType());
+			field.setTypeOfEmployement(income.getTypeOfEmployement());
+			field.setApplicationId(income.getApplication().getApplicationId());
+			incomeList.add(field);
+		}
+		
+		return incomeList;
+	}
+	
+	@GetMapping("/view-all-property-details")
+	public List<PropertyFields> viewAllPropertyDetails() {
+		List<PropertyFields> propertyList = new ArrayList<PropertyFields>();
+		List<Property> list = adminService.getProperty();
+		
+		for(Property property : list) {
+			PropertyFields field = new PropertyFields();
+			field.setPropertyId(property.getPropertyId());
+			field.setPropertyLocation(property.getPropertyLocation());
+			field.setPropertyName(property.getPropertyName());
+			field.setEstimatedAmount(property.getEstimatedAmount());
+			field.setApplicationId(property.getApplication().getApplicationId());
+			propertyList.add(field);
+		}
+		
+		return propertyList;
+	}
+	
+	
+	@GetMapping("/view-all-loan-details")
+	public List<LoanFields> viewAllLoanDetails() {
+		List<LoanFields> loanList = new ArrayList<LoanFields>();
+		List<Loan> list = adminService.getAllLoanDetails();
+		
+		for(Loan loan : list) {
+			LoanFields field = new LoanFields();
+			field.setApplicationId(loan.getApplication().getApplicationId());
+			field.setCustomerMonthlyIncome(loan.getCustomerMonthlyIncome());
+			field.setEligibilityStatus(loan.getEligibilityStatus());
+			field.setEmi(loan.getEmi());
+			field.setEndDate(loan.getEndDate());
+			field.setInterestRate(loan.getInterestRate());
+			field.setLoanAmount(loan.getLoanAmount());
+			field.setLoanId(loan.getLoanId());
+			field.setLoanStatus(loan.getLoanStatus());
+			field.setMaxLoanAmount(loan.getMaxLoanAmount());
+			field.setStartDate(loan.getStartDate());
+			field.setTenure(loan.getTenure());
+			loanList.add(field);
+		}
+		
+		return loanList;
+	}
+	
 	
 	@GetMapping(path = "view-application")
 	public Application fetchByApplicationId(@RequestParam("applicationId") int appId) {
@@ -116,6 +187,7 @@ public class AdminController {
 			return status;
 		}
 	}
+	
 	
 	
 }
