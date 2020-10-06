@@ -62,4 +62,6 @@ public interface AdminActivityRepository {
 
 	Application updateApplicationByAdmin(Application application);
 
+	Account updateAccountByAdmin(Account account);
+
 }

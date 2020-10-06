@@ -202,4 +202,12 @@ public class AdminActivityRepositoryImpl implements AdminActivityRepository {
 		return updatedObj;
 	}
 	
+	
+	//Update account
+		@Override
+		public Account updateAccountByAdmin(Account account) {
+			Account updatedObj = genericRepository.save(account);
+			return updatedObj;
+		}
+	
 }

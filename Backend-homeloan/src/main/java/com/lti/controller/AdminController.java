@@ -69,10 +69,12 @@ public class AdminController {
 			int applicationId = accountDetailsByAdmin.getApplicationId();
 			Application application = adminService.findByApplicationId(applicationId);
 			Account account = accountDetailsByAdmin.getAccount();
-			account.setApplication(application);
-			application.setAccount(account);
+			//account.setApplication(application);
 			
-			application = adminService.updateApplicationByAdmin(application);
+			
+			Account updatedAccount= adminService.updateAccountByAdmin(account);
+			//application.setAccount(updatedAccount);
+			//application = adminService.updateApplicationByAdmin(application);
 
 			Status status = new Status();
 			status.setStatus(true);

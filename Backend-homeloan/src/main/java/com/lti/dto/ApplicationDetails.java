@@ -6,6 +6,7 @@ import java.time.LocalDate;
 public class ApplicationDetails {
 	
 	private String firstname;
+	private String middlename;
 	private String lastname;
 	private String email;
 	private String phoneNo;
@@ -16,8 +17,37 @@ public class ApplicationDetails {
 	private LocalDate dateOfAppointment;
 	private String applicationStatusMessage;
 	private int accountNo;
+	private double ammount;
+	private String accountType;
+	
 	private boolean status;
 	
+	
+	
+	public String getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
+	}
+
+	public double getAmmount() {
+		return ammount;
+	}
+
+	public void setAmmount(double ammount) {
+		this.ammount = ammount;
+	}
+	
+	public String getMiddlename() {
+		return middlename;
+	}
+
+	public void setMiddlename(String middlename) {
+		this.middlename = middlename;
+	}
+
 	public int getAccountNo() {
 		return accountNo;
 	}

@@ -236,8 +236,11 @@ public class CustomerController {
 			if(applicationService.isAccountPresent(appId)) {
 				Account account = applicationService.fetchAccountByAppId(appId);
 				appDetails.setAccountNo(account.getAccountNo());
+				appDetails.setAmmount(account.getAmount());
+				appDetails.setAccountType(account.getAccountType());
 			}
 			appDetails.setFirstname(application.getFirstname());
+			appDetails.setMiddlename(application.getMiddlename());
 			appDetails.setLastname(application.getLastname());
 			appDetails.setPhoneNo(application.getPhoneNo());
 			appDetails.setDateOfBirth(application.getDateOfBirth());
