@@ -2,7 +2,7 @@ package com.lti.dto;
 
 import java.time.LocalDate;
 
-public class LoanFields {
+public class LoanFields extends Status {
 
 	private int loanId;
 	private double interestRate;
