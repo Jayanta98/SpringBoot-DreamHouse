@@ -130,7 +130,7 @@ public class CustomerController {
 	
 	@PostMapping("/documents-submit")
 	public Status documentSubmit(DocumentUpload documentUpload) {
-		String imageUploadLocation = "F:/docs/";
+		String imageUploadLocation = "H:/docs/";
 		
 		String fileNamePan = documentUpload.getPanCard().getOriginalFilename();
 		String targetFilePan = imageUploadLocation + fileNamePan;
