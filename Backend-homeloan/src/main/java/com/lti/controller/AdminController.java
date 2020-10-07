@@ -26,6 +26,7 @@ import com.lti.dto.IncomeFields;
 import com.lti.dto.LoanDetails;
 import com.lti.dto.LoanDetailsForAdmin;
 import com.lti.dto.PropertyFields;
+import com.lti.dto.RegistrationDetails;
 import com.lti.dto.Status;
 import com.lti.dto.UpdateApplicationStatusDetail;
 import com.lti.entity.Account;
@@ -474,6 +475,82 @@ public class AdminController {
 			
 		
 	}
+	
+	@GetMapping("/regiDetailsForEditing")
+	public RegistrationDetails getRegistrationDetailsForEdit(@RequestParam("applicationId") int applicationId) {
+		
+		try {
+			Application application = adminService.findByApplicationId(applicationId);
+			
+			RegistrationDetails registerDetails = new RegistrationDetails();
+			registerDetails.setApplicationId(applicationId);
+			registerDetails.setFirstName(application.getFirstname());
+			registerDetails.setMiddleName(application.getMiddlename());
+			registerDetails.setLastName(application.getLastname());
+			registerDetails.setEmail(application.getEmail());
+			registerDetails.setPassword(application.getPassword());
+			registerDetails.setPhoneNo(application.getPhoneNo());
+			registerDetails.setDateOfBirth(application.getDateOfBirth());
+			registerDetails.setNationality(application.getNationality());
+			registerDetails.setGender(application.getGender());
+			registerDetails.setAadharNo(application.getAadharNo());
+			registerDetails.setPanNo(application.getPanNo());
+			registerDetails.setStatus(true);
+			registerDetails.setStatusMessage("Successfully Fetched All Details of Registration");
+			return registerDetails;
+		}
+		catch (Exception e) {
+			RegistrationDetails registerDetails = new RegistrationDetails();
+			registerDetails.setStatus(false);
+			registerDetails.setStatusMessage("Error while fetching All Details of Registration"+" "+e.getMessage());
+			return registerDetails;
+			
+		}
+		
+		
+	}
+	
+	
+	@PostMapping("/editRegistrationByUser")
+	public Status editRegistrationByUser(@RequestBody RegistrationDetails regiDetails) {
+		
+		try {
+			int appId=regiDetails.getApplicationId();
+			Application application = adminService.findByApplicationId(appId);
+			
+			application.setFirstname(regiDetails.getFirstName());
+			application.setMiddlename(regiDetails.getMiddleName());
+			application.setLastname(regiDetails.getLastName());
+			application.setEmail(regiDetails.getEmail());
+			application.setPassword(regiDetails.getPassword());
+			application.setPhoneNo(regiDetails.getPhoneNo());
+			application.setDateOfBirth(regiDetails.getDateOfBirth());
+			application.setGender(regiDetails.getGender());
+			application.setNationality(regiDetails.getNationality());
+			application.setAadharNo(regiDetails.getAadharNo());
+			application.setPanNo(regiDetails.getPanNo());
+			
+			application = adminService.updateApplicationByAdmin(application);
+			
+			Status status = new Status();
+			status.setStatus(true);
+			status.setStatusMessage("Successfully Edited");
+			
+			return status;
+			
+		}
+		catch (Exception e) {
+			Status status = new Status();
+			status.setStatus(true);
+			status.setStatusMessage("Failed to edit due to : "+" "+e.getMessage());
+			
+			return status;
+		}
+		
+	}
+	
+
+	
 	
 	
 }
