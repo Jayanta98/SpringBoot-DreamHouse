@@ -176,7 +176,7 @@ public class AdminController {
 			appDetail.setDateOfBirth(application.getDateOfBirth());
 			appDetail.setEmail(application.getEmail());
 			appDetail.setFirstname(application.getFirstname());
-			appDetail.setLastname(application.getMiddlename());
+			appDetail.setLastname(application.getLastname());
 			appDetail.setMiddlename(application.getMiddlename());
 			appDetail.setNationality(application.getNationality());
 			appDetail.setPanNo(application.getPanNo());
@@ -215,7 +215,7 @@ public class AdminController {
 		catch(Exception e) {
 			IncomeFields field = new IncomeFields();
 			field.setStatus(false);
-			field.setStatusMessage("Invalid app Id");
+			field.setStatusMessage("Income data does not exist");
 			return field;
 		}
 	}
@@ -237,7 +237,7 @@ public class AdminController {
 		catch(Exception e) {
 			PropertyFields field = new PropertyFields();
 			field.setStatus(false);
-			field.setStatusMessage("Invalid app Id");
+			field.setStatusMessage("Property data does not exist");
 			return field;
 		}
 	}
@@ -266,7 +266,7 @@ public class AdminController {
 		catch(Exception e) {
 			LoanFields field = new LoanFields();
 			field.setStatus(false);
-			field.setStatusMessage("Invalid app Id");
+			field.setStatusMessage("Loan data does not exist");
 			return field;
 		}
 	}
