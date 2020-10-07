@@ -1,9 +1,14 @@
 package com.lti.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +21,7 @@ import com.lti.dto.AdminLogin;
 import com.lti.dto.AdminLoginStatus;
 import com.lti.dto.ApplicationDetails;
 import com.lti.dto.CreateAccountDetailsByAdmin;
+import com.lti.dto.DocFields;
 import com.lti.dto.IncomeFields;
 import com.lti.dto.LoanDetails;
 import com.lti.dto.LoanDetailsForAdmin;
@@ -25,6 +31,7 @@ import com.lti.dto.UpdateApplicationStatusDetail;
 import com.lti.entity.Account;
 import com.lti.entity.Admin;
 import com.lti.entity.Application;
+import com.lti.entity.Document;
 import com.lti.entity.Income;
 import com.lti.entity.Loan;
 import com.lti.entity.Property;
@@ -271,6 +278,66 @@ public class AdminController {
 		}
 	}
 	
+	@GetMapping("/view-document")
+	public DocFields fetchDocDetailByApplicationId(@RequestParam("applicationId") int appId, HttpServletRequest request) {
+		try {
+			Document doc = adminService.documentDetailsByApplicationId(appId);
+			DocFields field = new DocFields();
+			field.setDocumentId(doc.getDocumentId());
+			field.setAgreementToSale(doc.getAgreementToSale());
+			field.setLoa(doc.getLoa());
+			field.setNocFromBuilder(doc.getNocFromBuilder());
+			field.setPanCard(doc.getPanCard());
+			field.setSalarySlip(doc.getSalarySlip());
+			field.setVoterIdCard(doc.getVoterIdCard());
+			field.setApplicationId(doc.getApplication().getApplicationId());
+			
+			//reading the project's deployed folder projection
+			String projPath = request.getServletContext().getRealPath("/");
+			String tempDownloadPath = projPath + "/download/";
+			//creating a folder within the project where we will place the profile pic of the customer getting fetched
+			File f = new File(tempDownloadPath);
+			if(!f.exists()) {
+				f.mkdir();
+			}
+			String targetFilePan = tempDownloadPath + doc.getPanCard();
+			String targetFileVoter = tempDownloadPath + doc.getVoterIdCard();
+			String targetFileSalary = tempDownloadPath + doc.getSalarySlip();
+			String targetFileLoa = tempDownloadPath + doc.getLoa();
+			String targetFileNoc = tempDownloadPath + doc.getNocFromBuilder();
+			String targetFileSaleAgreement = tempDownloadPath + doc.getAgreementToSale();
+			
+			String imageUploadLocation = "H:/docs/";
+			String sourceFilePan = imageUploadLocation + doc.getPanCard();
+			String sourceFileVoter = imageUploadLocation + doc.getVoterIdCard();
+			String sourceFileSalary = imageUploadLocation + doc.getSalarySlip();
+			String sourceFileLoa = imageUploadLocation + doc.getLoa();
+			String sourceFileNoc = imageUploadLocation + doc.getNocFromBuilder();
+			String sourceFileSaleAgreement = imageUploadLocation + doc.getAgreementToSale();
+			
+			try {
+				FileCopyUtils.copy(new File(sourceFilePan), new File(targetFilePan));
+				FileCopyUtils.copy(new File(sourceFileVoter), new File(targetFileVoter));
+				FileCopyUtils.copy(new File(sourceFileSalary), new File(targetFileSalary));
+				FileCopyUtils.copy(new File(sourceFileLoa), new File(targetFileLoa));
+				FileCopyUtils.copy(new File(sourceFileNoc), new File(targetFileNoc));
+				FileCopyUtils.copy(new File(sourceFileSaleAgreement), new File(targetFileSaleAgreement));
+			}
+			catch(IOException e) {
+				e.printStackTrace();
+			}
+			field.setStatus(true);
+			field.setStatusMessage("Fetch successfull");
+			return field;
+		} 
+		catch (Exception e) {
+			DocFields field = new DocFields();
+			field.setStatus(false);
+			field.setStatusMessage("Documents not found");
+			return field;
+		}
+		
+	}
 	
 	//////Creating of Account by admin -----------CREATE SECTION   
 	
