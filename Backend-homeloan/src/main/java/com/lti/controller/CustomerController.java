@@ -130,7 +130,7 @@ public class CustomerController {
 	
 	@PostMapping("/documents-submit")
 	public Status documentSubmit(DocumentUpload documentUpload) {
-		String imageUploadLocation = "F:/docs/";
+		String imageUploadLocation = "H:/docs/";
 		
 		String fileNamePan = documentUpload.getPanCard().getOriginalFilename();
 		String targetFilePan = imageUploadLocation + fileNamePan;
@@ -277,7 +277,7 @@ public class CustomerController {
 			accountdetail.setStatusMessage("Account details fetched");
 			return accountdetail;
 		}
-		catch(ApplicationServiceException e) {
+		catch(Exception e) {
 			AccountDetail accountdetail = new AccountDetail();
 			accountdetail.setAccountStatus(false);
 			accountdetail.setStatusMessage(e.getMessage());
