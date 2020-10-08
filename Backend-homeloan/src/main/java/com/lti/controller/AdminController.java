@@ -308,7 +308,7 @@ public class AdminController {
 			String targetFileNoc = tempDownloadPath + doc.getNocFromBuilder();
 			String targetFileSaleAgreement = tempDownloadPath + doc.getAgreementToSale();
 			
-			String imageUploadLocation = "H:/docs/";
+			String imageUploadLocation = "F:/docs/";
 			String sourceFilePan = imageUploadLocation + doc.getPanCard();
 			String sourceFileVoter = imageUploadLocation + doc.getVoterIdCard();
 			String sourceFileSalary = imageUploadLocation + doc.getSalarySlip();
